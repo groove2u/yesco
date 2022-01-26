@@ -33,7 +33,7 @@ public class Biometric {
 
         promptBuilder.setTitle("생체 인증");
         promptBuilder.setSubtitle("생체인증을 통하여 로그인합니다.");
-        //promptBuilder.setNegativeButtonText("Use account password");
+        promptBuilder.setNegativeButtonText("생체인증 불가능.");
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){ //  안면인식 ap사용 android 11부터 지원
             promptBuilder.setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL);

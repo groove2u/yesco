@@ -75,7 +75,7 @@ public class MainActivity extends FragmentActivity {
     private String mCameraPhotoPath;
     private boolean isReload = true;
 
-    private final String initURL = "https://yeshrsapdev.yescoholdings.com:8443/sap/bc/ui5_ui5/sap/zui5_yescohr/index.html?sap-client=100";
+    private final String initURL = "https://yeshrsapdev.yescoholdings.com:8443/sap/bc/ui5_ui5/sap/zui5_yescohr/index.html?sap-client=100&saml2=disabled";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
