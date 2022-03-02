@@ -141,6 +141,7 @@ public class CustomHRWebview extends WebView {
                     CookieManager.getInstance().flush();
                 }
                 super.onPageFinished(view, url);
+
             }
 
             @Override

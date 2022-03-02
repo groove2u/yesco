@@ -17,6 +17,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import androidx.annotation.NonNull;
 
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -76,6 +77,8 @@ public class MainActivity extends FragmentActivity {
     private boolean isReload = true;
 
     private final String initURL = "https://yeshrsapdev.yescoholdings.com:8443/sap/bc/ui5_ui5/sap/zui5_yescohr/index.html?sap-client=100&saml2=disabled";
+    //private final String initURL = "http://tosky.co.kr:8080/test";
+    //private final String initURL = "https://m.naver.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +112,7 @@ public class MainActivity extends FragmentActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("sFile1", MODE_PRIVATE);
         String token = sharedPreferences.getString("Token1", "");
+
 
         customHRWebview = (CustomHRWebview) findViewById(R.id.webview);
 
@@ -155,19 +159,14 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        customHRWebview.addJavascriptInterface(new JavaScriptInterface(mContext), "Android");
+        customHRWebview.addJavascriptInterface(new JavaScriptInterface(mActivity,mContext,customHRWebview), "YescoApp");
         customHRWebview.getSettings().setPluginState(WebSettings.PluginState.ON);
         customHRWebview.clearCache(true);
         customHRWebview.clearHistory();
 
         clearCookies(mContext);
-        //생체 인증 테스트
-        Biometric bio = new Biometric(mActivity,mContext);
-        if(bio.isBioAvailable()){
-            bio.BioRun();
-        }
 
-        customHRWebview.loadWebview(initURL + "?token=" + token);
+        //customHRWebview.loadWebview(initURL + "?token=" + token);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
@@ -322,7 +321,18 @@ public class MainActivity extends FragmentActivity {
                 CookieSyncManager.getInstance().startSync();
             }
 
-            isReload = false;
+            /*
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //생체 인증 테스트
+                    Biometric bio = new Biometric(mActivity,mContext);
+                    bio.isBioAvailable();
+                }
+            }, 3000); //딜레이 타임 조절
+            */
+          isReload = false;
         }
 
         super.onResume();
