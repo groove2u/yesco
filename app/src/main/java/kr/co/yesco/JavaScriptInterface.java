@@ -64,7 +64,24 @@ public class JavaScriptInterface {
         }
          */
     }
+    @JavascriptInterface
+    public String getVersionInfo() throws IOException {
+        int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
+        return versionName;
+    }
+    @JavascriptInterface
+    public String getToken() throws IOException {
+        PreferenceUtil pUtil = new PreferenceUtil(mContext);
+        String token ="";
+        try{
+           token =pUtil.getStringPreferences("token");
 
+        }catch (Exception e){
+
+        }
+        return token;
+    }
     @JavascriptInterface
     public void bioCall() throws IOException {
 

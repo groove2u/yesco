@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.Preference;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,6 +45,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executor;
+
+import kr.co.yesco.util.PreferenceUtil;
 
 
 public class MainActivity extends FragmentActivity {
@@ -76,9 +79,11 @@ public class MainActivity extends FragmentActivity {
     private String mCameraPhotoPath;
     private boolean isReload = true;
 
-    private final String initURL = "https://yeshrsapdev.yescoholdings.com:8443/sap/bc/ui5_ui5/sap/zui5_yescohr/index.html?sap-client=100&saml2=disabled";
-    //private final String initURL = "http://tosky.co.kr:8080/test";
+    //private final String initURL = "https://yeshrsapdev.yescoholdings.com:8443/sap/bc/ui5_ui5/sap/zui5_yescohr/index.html?sap-client=100&saml2=disabled";
+    //private final String initURL = "https://devhrportal.yescoholdings.com:44300/hey/index.html?sap-client=100&saml2=disabled#/mobile";
+//    private final String initURL = "http://tosky.co.kr:8080/test";
     //private final String initURL = "https://m.naver.com";
+    private final String initURL = "https://devhrportal.yescoholdings.com:44300/hey/index.html?sap-client=300&saml2=disabled#/mobile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +101,7 @@ public class MainActivity extends FragmentActivity {
 
         this.getToken();
 
-        FirebaseMessaging.getInstance().subscribeToTopic("news")
+        FirebaseMessaging.getInstance().subscribeToTopic("all")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
 
                     @Override
@@ -168,7 +173,7 @@ public class MainActivity extends FragmentActivity {
 
         //customHRWebview.loadWebview(initURL + "?token=" + token);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     private  void clearCookies(Context context)
@@ -298,12 +303,13 @@ public class MainActivity extends FragmentActivity {
                         // Get new FCM registration token
                         String token = task.getResult();
 
+                        PreferenceUtil pUtil = new PreferenceUtil(mContext);
+
+                        pUtil.setStringPreferences("token",token);
+
                         // Log and toast
                         String msg = "[onCreate]Current Token is " + token;
                         Log.d(TAG, msg);
-
-                        editor.putString("Token1", token);
-                        editor.commit();
                     }
                 });
     }
@@ -412,7 +418,7 @@ public class MainActivity extends FragmentActivity {
                 // Continue only if the File was successfully created
                 if (photoFile != null) {
                     mCameraPhotoPath = "file:"+photoFile.getAbsolutePath();
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getApplicationContext(), "com.lottechem.hrsap.fileProvider", photoFile));
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getApplicationContext(), "kr.co.yesco.fileProvider", photoFile));
                 } else {
                     takePictureIntent = null;
                 }

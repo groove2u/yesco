@@ -73,7 +73,7 @@ public class Biometric {
                                                   @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
                     Toast.makeText(mContext,
-                            "생체 인증을 실행하던중 오류가 발생하였습니다..", Toast.LENGTH_SHORT)
+                            "생체 인증이 취소되었습니다.", Toast.LENGTH_SHORT)
                             .show();
                 }
                 @Override
